@@ -23,13 +23,13 @@ const useFetch = (url) => {   //runs when the components mounts and a url is cha
             return res.json();
         })
         .then(data => {
-            setData(data);
+            setData(data.articles);
             setIsPending(false)
             setError(null);
 
         })
         .catch(err =>{
-            if (err.name == 'AbortError'){
+            if (err.name === 'AbortError'){
              console.log('fetch-aborted');   
             } else{
                 setError(err.message);
@@ -46,3 +46,40 @@ const useFetch = (url) => {   //runs when the components mounts and a url is cha
 }
 
 export default useFetch;
+
+// import { useState, useEffect } from "react";
+// import axios from "axios";
+
+// const useFetch = (url) => {
+//   const [data, setData] = useState(null);
+//   const [isPending, setIsPending] = useState(true);
+//   const [error, setError] = useState(null);
+
+//   useEffect(() => {
+//     const source = axios.CancelToken.source();
+
+//     axios.get(url, { cancelToken: source.token })
+//       .then(res => {
+//         setData(res.data);
+//         setIsPending(false);
+//         setError(null);
+//       })
+//       .catch(err => {
+//         if (axios.isCancel(err)) {
+//           console.log('Fetch aborted');
+//         } else {
+//           console.error('Fetch error:', err.message);
+//           setError(err.message);
+//           setIsPending(false);
+//         }
+//       });
+
+//     return () => {
+//       source.cancel('Operation canceled by the user.');
+//     };
+//   }, [url]);
+
+//   return { data, isPending, error };
+// };
+
+// export default useFetch;
